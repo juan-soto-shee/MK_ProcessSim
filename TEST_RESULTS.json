@@ -1,0 +1,1012 @@
+{
+  "generatedAt": "2026-08-16T20:47:00.979Z",
+  "summary": {
+    "passed": 51,
+    "failed": 0,
+    "total": 51
+  },
+  "steadyState": {
+    "t": 916.9999999994947,
+    "M_mill": 11.140078217198807,
+    "millWaterMassT": 4.726741676871064,
+    "sumpSolidsMassT": 102.98217263766249,
+    "sumpWaterMassT": 49.85849092017406,
+    "sumpVolumeM3": 88.00003634153055,
+    "sumpLevelPct": 55.00002271345659,
+    "sumpAlarm": "NORMAL",
+    "Power_mill": 364.32,
+    "specificEnergy": 3.6431999999999998,
+    "F_fresh": 100,
+    "F_mill": 334.2023465159642,
+    "F_cyclone": 334.20149675199343,
+    "F_UF": 234.20249402931856,
+    "F_OF": 99.9990027226749,
+    "CL": 234.20249402931856,
+    "split_UF": 0.7007823014123636,
+    "P80_feed": 10000,
+    "P80_mill": 1041.1919719981745,
+    "P80_cyclone": 1041.191341720347,
+    "P80_UF": 1619.4340400674218,
+    "P80_OF": 102.44413159133522,
+    "W_mill_in": 141.80225787806094,
+    "W_mill_out": 141.80225030613192,
+    "W_sump_fresh": 20,
+    "W_cyclone": 161.80259033711584,
+    "W_UF": 78.7094743729063,
+    "W_OF": 83.09311596420955,
+    "R_mass": 0.00014751335436358204,
+    "R_cyclone": -2.842170943040401e-14,
+    "R_water_mill": -1.2434497875801753e-14,
+    "R_water_sump": 8.881784197001252e-15,
+    "R_water_cyclone": 0,
+    "solidsInventoryRate": 0.0009972773250927066,
+    "waterInventoryRate": -0.00033245905489920347,
+    "systemSolidsResidual": 5.20503778966841e-15,
+    "systemWaterResidual": -3.552713678800501e-15,
+    "solidsPctMillIn": 70.20990708394176,
+    "solidsPctMillOut": 70.20989896886864,
+    "solidsPctSump": 67.37877881477067,
+    "solidsPctCyclone": 67.37877881477067,
+    "solidsPctUF": 74.84612852144691,
+    "solidsPctOF": 54.616770748984834,
+    "densityMill": 1.792314891263968,
+    "densitySump": 1.7368250049881542,
+    "densityCyclone": 1.7368250049881544,
+    "densityUF": 1.8912651228537403,
+    "densityOF": 1.5241192745062573,
+    "Q_mill": 265.58089716389645,
+    "Q_sump_in": 285.58089716389645,
+    "Q_pump": 285.5809224674838,
+    "Q_cyclone": 285.5809224674838,
+    "Q_UF": 165.45113882820948,
+    "Q_OF": 120.12978363927432,
+    "pumpSpeedEffectivePct": 79.3280340187455,
+    "qPerCyclone": 47.5968204112473,
+    "d50c": 105.43609756131546,
+    "feedPressureKpa": 100,
+    "activeCyclones": 6,
+    "distribution": {
+      "feed": [
+        0.009081982505213304,
+        0.025411579762844028,
+        0.08570649873276015,
+        0.09911470335800798,
+        0.14292317556698386,
+        0.14250302809769166,
+        0.12806641881742775,
+        0.10368215412267612,
+        0.07430187268205668,
+        0.06045682087829807,
+        0.038564812601816545,
+        0.02882901925745185,
+        0.019660845604893562,
+        0.013566273325156475,
+        0.009172020076530618,
+        0.006182937349220707,
+        0.004187613726841621,
+        0.002810781637693993,
+        0.0018982121144039965,
+        0.0038792497820310246
+      ],
+      "mill": [
+        0.00022518784985792428,
+        0.0008693169404672458,
+        0.0034434167773284875,
+        0.006390517861288072,
+        0.011755554923895066,
+        0.017722671289590926,
+        0.024446431084664568,
+        0.03139039871398101,
+        0.037976706822658135,
+        0.04569688677845763,
+        0.052640485764410626,
+        0.06061022233474621,
+        0.06890809142628725,
+        0.0778676021998759,
+        0.08674135474934076,
+        0.09218957775709488,
+        0.08700636563728324,
+        0.07379015134546052,
+        0.05986222647297691,
+        0.16046683327033476
+      ],
+      "UF": [
+        0.000321016449886643,
+        0.0012392543926207894,
+        0.004908761229969838,
+        0.00910999948772479,
+        0.01675812470849532,
+        0.02526454264459553,
+        0.034849591533652746,
+        0.04474855512697908,
+        0.0541376542386734,
+        0.06514313898253585,
+        0.07504156359192286,
+        0.08640278959507296,
+        0.09820457931433625,
+        0.11039346336470128,
+        0.1198052292486536,
+        0.11294003110192669,
+        0.07021019047822395,
+        0.028244522320661138,
+        0.013127302008010145,
+        0.02914969018135719
+      ],
+      "OF": [
+        7.525886183875713e-7,
+        0.0000029052989387379386,
+        0.000011508063943022004,
+        0.000021357416202188682,
+        0.000039287625059672646,
+        0.00005923000908459172,
+        0.00008170112763051683,
+        0.0001049081855142976,
+        0.00012691992083463215,
+        0.00015272109881472848,
+        0.0001759268931085317,
+        0.00020256206829632385,
+        0.00029398413763970666,
+        0.0016900173604823907,
+        0.009303563182895441,
+        0.043590337093839554,
+        0.12634335259625784,
+        0.1804600966969948,
+        0.16931783974586798,
+        0.4680210288899767
+      ]
+    },
+    "status": "ESTADO ESTACIONARIO"
+  },
+  "conservation60min": {
+    "solidResidualT": 2.1316282072803006e-12,
+    "waterResidualT": -6.963318810448982e-13
+  },
+  "perturbations": [
+    {
+      "name": "water_mill_60_to_80",
+      "changes": {
+        "millWaterM3h": 80
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 101.58605352869237,
+        "CL": 234.20524678575083,
+        "sumpLevelPct": 54.51282133098234,
+        "densityCyclone": 1.6562582478962755,
+        "solidsPctCyclone": 62.93055522522278,
+        "Q_cyclone": 285.5911315907832,
+        "W_OF": 83.09760839343268,
+        "W_UF": 78.71392114698097,
+        "F_OF": 99.99967875024693,
+        "F_UF": 234.20524678575083
+      },
+      "maximum": {
+        "P80_OF": 103.6313548126921,
+        "CL": 277.76110965451545,
+        "sumpLevelPct": 56.67059076948387,
+        "densityCyclone": 1.7368062247364937,
+        "solidsPctCyclone": 67.37779001394489,
+        "Q_cyclone": 353.7207135232899,
+        "W_OF": 105.99645408713675,
+        "W_UF": 104.28644936681833,
+        "F_OF": 110.42017530070837,
+        "F_UF": 277.76110965451545
+      },
+      "final": {
+        "P80_OF": 101.58605352869237,
+        "CL": 242.43335431746883,
+        "sumpLevelPct": 54.98724448489435,
+        "densityCyclone": 1.6562582478962755,
+        "solidsPctCyclone": 62.93055522522278,
+        "Q_cyclone": 328.92635794102387,
+        "W_OF": 102.9659898569355,
+        "W_UF": 98.98352376098283,
+        "F_OF": 100.40412535491625,
+        "F_UF": 242.43335431746883
+      },
+      "status": "ESTADO ESTACIONARIO"
+    },
+    {
+      "name": "water_sump_20_to_40",
+      "changes": {
+        "sumpWaterM3h": 40
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 101.57943576894574,
+        "CL": 234.2710189294756,
+        "sumpLevelPct": 54.50743039136613,
+        "densityCyclone": 1.6561766768250945,
+        "solidsPctCyclone": 62.92583224322903,
+        "Q_cyclone": 285.83352653496985,
+        "W_OF": 83.20415779257578,
+        "W_UF": 78.81936410803934,
+        "F_OF": 100.0159935832822,
+        "F_UF": 234.2710189294756
+      },
+      "maximum": {
+        "P80_OF": 103.63737652756986,
+        "CL": 277.9207757129466,
+        "sumpLevelPct": 56.69079892438558,
+        "densityCyclone": 1.7363622120537094,
+        "solidsPctCyclone": 67.35440602885389,
+        "Q_cyclone": 353.91498015597614,
+        "W_OF": 106.05298952256018,
+        "W_UF": 104.34322708647036,
+        "F_OF": 110.4783274896411,
+        "F_UF": 277.9207757129466
+      },
+      "final": {
+        "P80_OF": 101.57943576894574,
+        "CL": 242.36591098476438,
+        "sumpLevelPct": 54.98744629167762,
+        "densityCyclone": 1.6561766768250945,
+        "solidsPctCyclone": 62.92583224322903,
+        "Q_cyclone": 328.8913171346405,
+        "W_OF": 102.96699203576709,
+        "W_UF": 98.97678891414597,
+        "F_OF": 100.39243671399974,
+        "F_UF": 242.36591098476438
+      },
+      "status": "ESTADO ESTACIONARIO"
+    },
+    {
+      "name": "pump_speed_70_to_90",
+      "changes": {
+        "pumpSpeedPct": 90
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 100.74423573168549,
+        "CL": 213.61585803123407,
+        "sumpLevelPct": 52.412212696566954,
+        "densityCyclone": 1.7329976204248292,
+        "solidsPctCyclone": 67.17681995302321,
+        "Q_cyclone": 260.18131789788345,
+        "W_OF": 75.4959438422888,
+        "W_UF": 71.33128604253895,
+        "F_OF": 91.91863333944788,
+        "F_UF": 213.61585803123404
+      },
+      "maximum": {
+        "P80_OF": 104.10468344748767,
+        "CL": 294.50743999929773,
+        "sumpLevelPct": 55.754175085208715,
+        "densityCyclone": 1.745862314355394,
+        "solidsPctCyclone": 67.85213487175173,
+        "Q_cyclone": 356.6935100330915,
+        "W_OF": 103.22648865048008,
+        "W_UF": 98.86480776867079,
+        "F_OF": 122.91853675834203,
+        "F_UF": 294.50743999929773
+      },
+      "final": {
+        "P80_OF": 102.42651413593623,
+        "CL": 234.07673934072722,
+        "sumpLevelPct": 55.00465410285655,
+        "densityCyclone": 1.7366355897680006,
+        "solidsPctCyclone": 67.36880491600441,
+        "Q_cyclone": 285.5348336321778,
+        "W_OF": 83.10384307096606,
+        "W_UF": 78.70444904830165,
+        "F_OF": 99.98492274413012,
+        "F_UF": 234.07673934072722
+      },
+      "status": "ESTADO ESTACIONARIO"
+    },
+    {
+      "name": "active_cyclones_6_to_5",
+      "changes": {
+        "activeCyclones": 5
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 101.04643233132953,
+        "CL": 235.50178097709656,
+        "sumpLevelPct": 54.9850946197383,
+        "densityCyclone": 1.736825270705703,
+        "solidsPctCyclone": 67.37879280493729,
+        "Q_cyclone": 285.5813591274011,
+        "W_OF": 82.72849812742267,
+        "W_UF": 79.07429497200788,
+        "F_OF": 98.70034729842394,
+        "F_UF": 235.50178097709656
+      },
+      "maximum": {
+        "P80_OF": 101.33075914351986,
+        "CL": 239.4640968026014,
+        "sumpLevelPct": 55.06920645033905,
+        "densityCyclone": 1.7410506107210604,
+        "solidsPctCyclone": 67.60071921098165,
+        "Q_cyclone": 288.4301690181633,
+        "W_OF": 83.4009782486558,
+        "W_UF": 79.73465708237454,
+        "F_OF": 99.9719954208,
+        "F_UF": 239.4640968026014
+      },
+      "final": {
+        "P80_OF": 101.33075914351986,
+        "CL": 239.4640968026014,
+        "sumpLevelPct": 55.00054128858778,
+        "densityCyclone": 1.7410506107210604,
+        "solidsPctCyclone": 67.60071921098165,
+        "Q_cyclone": 288.40003359769884,
+        "W_OF": 83.10232627697977,
+        "W_UF": 79.5806361268667,
+        "F_OF": 99.9719954208,
+        "F_UF": 239.4640968026014
+      },
+      "status": "ESTADO ESTACIONARIO"
+    },
+    {
+      "name": "pressure_100_to_120",
+      "changes": {
+        "feedPressureKpa": 120
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 98.99379859990216,
+        "CL": 237.44230196558064,
+        "sumpLevelPct": 54.963582974127846,
+        "densityCyclone": 1.7368256414850314,
+        "solidsPctCyclone": 67.37881232665396,
+        "Q_cyclone": 285.5820036314651,
+        "W_OF": 82.1839280419827,
+        "W_UF": 79.61916792928541,
+        "F_OF": 96.76074871695128,
+        "F_UF": 237.44230196558064
+      },
+      "maximum": {
+        "P80_OF": 99.70070940276443,
+        "CL": 247.68466917143414,
+        "sumpLevelPct": 55.173390332539256,
+        "densityCyclone": 1.7475615643847127,
+        "solidsPctCyclone": 67.94059135190652,
+        "Q_cyclone": 292.7731511303998,
+        "W_OF": 83.86201244548427,
+        "W_UF": 81.2904378460197,
+        "F_OF": 99.92596503208682,
+        "F_UF": 247.68466917143414
+      },
+      "final": {
+        "P80_OF": 99.70070940276443,
+        "CL": 247.68466917143414,
+        "sumpLevelPct": 55.00151433080814,
+        "densityCyclone": 1.7475615643847127,
+        "solidsPctCyclone": 67.94059135190652,
+        "Q_cyclone": 292.7731511303998,
+        "W_OF": 83.11811857673287,
+        "W_UF": 80.91035321902953,
+        "F_OF": 99.92596503208682,
+        "F_UF": 247.68466917143414
+      },
+      "status": "ESTADO ESTACIONARIO"
+    },
+    {
+      "name": "Wi_14_to_17",
+      "changes": {
+        "wiKwhT": 17
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 102.44514008897231,
+        "CL": 234.20724828665243,
+        "sumpLevelPct": 54.96180915551088,
+        "densityCyclone": 1.736825022603045,
+        "solidsPctCyclone": 67.37877974220392,
+        "Q_cyclone": 285.5809278649324,
+        "W_OF": 81.73444774296833,
+        "W_UF": 78.71080662576868,
+        "F_OF": 91.84193478716593,
+        "F_UF": 234.20724828665243
+      },
+      "maximum": {
+        "P80_OF": 119.96963625775226,
+        "CL": 374.28224182796407,
+        "sumpLevelPct": 55.67060027569606,
+        "densityCyclone": 1.8382954613308267,
+        "solidsPctCyclone": 72.42635727449301,
+        "Q_cyclone": 357.5532189342038,
+        "W_OF": 85.91793393212181,
+        "W_UF": 99.12402219385889,
+        "F_OF": 99.99426277129398,
+        "F_UF": 374.28224182796407
+      },
+      "final": {
+        "P80_OF": 119.9678115264316,
+        "CL": 374.25878794501693,
+        "sumpLevelPct": 54.99644613630087,
+        "densityCyclone": 1.8382954613308267,
+        "solidsPctCyclone": 72.42635727449301,
+        "Q_cyclone": 355.67493145442495,
+        "W_OF": 83.22202327777114,
+        "W_UF": 97.06427244289064,
+        "F_OF": 99.29052853614344,
+        "F_UF": 374.25878794501693
+      },
+      "status": "ESTADO ESTACIONARIO"
+    },
+    {
+      "name": "feed_100_to_120",
+      "changes": {
+        "freshSolidsTph": 120
+      },
+      "initial": {
+        "P80_OF": 102.44413159133522,
+        "CL": 234.20249402931856,
+        "sumpLevelPct": 55.00002271345659,
+        "densityCyclone": 1.7368250049881544,
+        "solidsPctCyclone": 67.37877881477067,
+        "Q_cyclone": 285.5809224674838,
+        "W_OF": 83.09311596420955,
+        "W_UF": 78.7094743729063,
+        "F_OF": 99.9990027226749,
+        "F_UF": 234.20249402931856
+      },
+      "minimum": {
+        "P80_OF": 102.44407427824918,
+        "CL": 195.17564377583412,
+        "sumpLevelPct": 54.96350327546857,
+        "densityCyclone": 1.7368335423038213,
+        "solidsPctCyclone": 67.3792283067242,
+        "Q_cyclone": 285.5850226073985,
+        "W_OF": 83.07678663500144,
+        "W_UF": 78.71052517122408,
+        "F_OF": 99.99939473909366,
+        "F_UF": 234.21077253100094
+      },
+      "maximum": {
+        "P80_OF": 112.78430150139643,
+        "CL": 314.32924693510944,
+        "sumpLevelPct": 56.017316670263895,
+        "densityCyclone": 1.8724369412837292,
+        "solidsPctCyclone": 74.00169861468781,
+        "Q_cyclone": 360,
+        "W_OF": 88.58862237591656,
+        "W_UF": 95.58665829691812,
+        "F_OF": 119.89248791598142,
+        "F_UF": 377.19509632213135
+      },
+      "final": {
+        "P80_OF": 112.75767013565095,
+        "CL": 314.32924693510944,
+        "sumpLevelPct": 54.99891383955844,
+        "densityCyclone": 1.8724369412837292,
+        "solidsPctCyclone": 74.00169861468781,
+        "Q_cyclone": 358.74348820764135,
+        "W_OF": 83.80655955717295,
+        "W_UF": 90.83041596968596,
+        "F_OF": 119.89248791598142,
+        "F_UF": 377.19509632213135
+      },
+      "status": "ESTADO ESTACIONARIO"
+    }
+  ],
+  "tests": [
+    {
+      "name": "test_steady_state_convergence",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_solids_balance",
+      "pass": true,
+      "expected": 0,
+      "calculated": 5.20503778966841e-15,
+      "error": 5.20503778966841e-15,
+      "tolerance": 1e-8,
+      "units": "t/h"
+    },
+    {
+      "name": "test_water_balance",
+      "pass": true,
+      "expected": 0,
+      "calculated": -3.552713678800501e-15,
+      "error": 3.552713678800501e-15,
+      "tolerance": 1e-8,
+      "units": "t/h"
+    },
+    {
+      "name": "test_mill_water_balance",
+      "pass": true,
+      "expected": 0,
+      "calculated": -1.2434497875801753e-14,
+      "error": 1.2434497875801753e-14,
+      "tolerance": 1e-8,
+      "units": "t/h"
+    },
+    {
+      "name": "test_sump_water_balance",
+      "pass": true,
+      "expected": 0,
+      "calculated": 8.881784197001252e-15,
+      "error": 8.881784197001252e-15,
+      "tolerance": 1e-8,
+      "units": "t/h"
+    },
+    {
+      "name": "test_cyclone_water_balance",
+      "pass": true,
+      "expected": 0,
+      "calculated": 0,
+      "error": 0,
+      "tolerance": 1e-8,
+      "units": "t/h"
+    },
+    {
+      "name": "test_cyclone_solids_balance",
+      "pass": true,
+      "expected": 0,
+      "calculated": -2.842170943040401e-14,
+      "error": 2.842170943040401e-14,
+      "tolerance": 1e-8,
+      "units": "t/h"
+    },
+    {
+      "name": "test_circulating_load",
+      "pass": true,
+      "expected": 234.20249402931853,
+      "calculated": 234.20249402931856,
+      "error": 2.842170943040401e-14,
+      "tolerance": 1e-9,
+      "units": "%"
+    },
+    {
+      "name": "test_steady_product_equals_fresh",
+      "pass": true,
+      "expected": 100,
+      "calculated": 99.9990027226749,
+      "error": 0.0009972773250979117,
+      "tolerance": 0.01,
+      "units": "t/h"
+    },
+    {
+      "name": "test_pulp_density",
+      "pass": true,
+      "expected": 1.6071428571428572,
+      "calculated": 1.6071428571428572,
+      "error": 0,
+      "tolerance": 1e-12,
+      "units": "t/m3"
+    },
+    {
+      "name": "test_solids_percentage",
+      "pass": true,
+      "expected": 60,
+      "calculated": 60,
+      "error": 0,
+      "tolerance": 1e-12,
+      "units": "%"
+    },
+    {
+      "name": "test_pulp_volumetric_flow",
+      "pass": true,
+      "expected": 62.22222222222222,
+      "calculated": 62.22222222222222,
+      "error": 0,
+      "tolerance": 1e-12,
+      "units": "m3/h"
+    },
+    {
+      "name": "test_sump_inventory",
+      "pass": true,
+      "expected": 88.00003634153055,
+      "calculated": 88.00003634153055,
+      "error": 0,
+      "tolerance": 1e-9,
+      "units": "m3"
+    },
+    {
+      "name": "test_sump_level",
+      "pass": true,
+      "expected": 55.00002271345659,
+      "calculated": 55.00002271345659,
+      "error": 0,
+      "tolerance": 1e-9,
+      "units": "%"
+    },
+    {
+      "name": "test_auto_level_tracks_setpoint",
+      "pass": true,
+      "expected": 55,
+      "calculated": 55.00002271345659,
+      "error": 0.000022713456587553082,
+      "tolerance": 0.01,
+      "units": "%"
+    },
+    {
+      "name": "test_pump_flow_limit",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_manual_pump_speed",
+      "pass": true,
+      "expected": 50,
+      "calculated": 50,
+      "error": 0,
+      "tolerance": 1e-9,
+      "units": "%"
+    },
+    {
+      "name": "test_cyclone_flow_split",
+      "pass": true,
+      "expected": 285.5809224674838,
+      "calculated": 285.5809224674838,
+      "error": 0,
+      "tolerance": 1e-8,
+      "units": "m3/h"
+    },
+    {
+      "name": "test_physical_solids_percentages",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_no_drift_P80",
+      "pass": true,
+      "expected": 102.44413159133522,
+      "calculated": 102.44434478406009,
+      "error": 0.00021319272487119179,
+      "tolerance": 0.25,
+      "units": "um"
+    },
+    {
+      "name": "test_no_drift_CL",
+      "pass": true,
+      "expected": 234.20249402931856,
+      "calculated": 234.20431926317883,
+      "error": 0.0018252338602735563,
+      "tolerance": 0.25,
+      "units": "%"
+    },
+    {
+      "name": "test_no_drift_sump_level",
+      "pass": true,
+      "expected": 55.00002271345659,
+      "calculated": 55.00001603577084,
+      "error": 0.000006677685746581119,
+      "tolerance": 0.05,
+      "units": "%"
+    },
+    {
+      "name": "test_no_drift_density",
+      "pass": true,
+      "expected": 1.7368250049881544,
+      "calculated": 1.73682766166896,
+      "error": 0.0000026566808055683566,
+      "tolerance": 0.002,
+      "units": "t/m3"
+    },
+    {
+      "name": "test_startup_convergence_P80",
+      "pass": true,
+      "expected": 102.44413159133522,
+      "calculated": 102.44482955814337,
+      "error": 0.0006979668081470436,
+      "tolerance": 1,
+      "units": "um"
+    },
+    {
+      "name": "test_startup_convergence_CL",
+      "pass": true,
+      "expected": 234.20249402931856,
+      "calculated": 234.20846968393786,
+      "error": 0.005975654619305715,
+      "tolerance": 1,
+      "units": "%"
+    },
+    {
+      "name": "test_startup_convergence_level",
+      "pass": true,
+      "expected": 55.00002271345659,
+      "calculated": 55.00000085115854,
+      "error": 0.000021862298048347384,
+      "tolerance": 0.2,
+      "units": "%"
+    },
+    {
+      "name": "test_startup_convergence_density",
+      "pass": true,
+      "expected": 1.7368250049881544,
+      "calculated": 1.7368337026593033,
+      "error": 0.000008697671148860664,
+      "tolerance": 0.01,
+      "units": "t/m3"
+    },
+    {
+      "name": "test_water_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_sump_water_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_pump_speed_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_active_cyclones_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_pressure_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_wi_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_feed_step",
+      "pass": true,
+      "expected": 1,
+      "calculated": 1,
+      "error": 0,
+      "tolerance": 0,
+      "units": ""
+    },
+    {
+      "name": "test_no_mass_creation",
+      "pass": true,
+      "expected": 0,
+      "calculated": 2.1316282072803006e-12,
+      "error": 2.1316282072803006e-12,
+      "tolerance": 0.002,
+      "units": "t over 60 min"
+    },
+    {
+      "name": "test_no_water_creation",
+      "pass": true,
+      "expected": 0,
+      "calculated": -6.963318810448982e-13,
+      "error": 6.963318810448982e-13,
+      "tolerance": 0.002,
+      "units": "t over 60 min"
+    },
+    {
+      "name": "test_dt_independence_0.5_P80",
+      "pass": true,
+      "expected": 91.5942396632575,
+      "calculated": 91.59423966326149,
+      "error": 3.993250174971763e-12,
+      "tolerance": 0.35,
+      "units": "um"
+    },
+    {
+      "name": "test_dt_independence_0.5_level",
+      "pass": true,
+      "expected": 55.68695821088189,
+      "calculated": 55.68695821088047,
+      "error": 1.4210854715202004e-12,
+      "tolerance": 0.1,
+      "units": "%"
+    },
+    {
+      "name": "test_dt_independence_1_P80",
+      "pass": true,
+      "expected": 91.5942396632575,
+      "calculated": 91.59423966326686,
+      "error": 9.36495325731812e-12,
+      "tolerance": 0.35,
+      "units": "um"
+    },
+    {
+      "name": "test_dt_independence_1_level",
+      "pass": true,
+      "expected": 55.68695821088189,
+      "calculated": 55.68695821087387,
+      "error": 8.022027486731531e-12,
+      "tolerance": 0.1,
+      "units": "%"
+    },
+    {
+      "name": "test_dt_independence_2_P80",
+      "pass": true,
+      "expected": 91.5942396632575,
+      "calculated": 91.5942396633513,
+      "error": 9.380585197504843e-11,
+      "tolerance": 0.35,
+      "units": "um"
+    },
+    {
+      "name": "test_dt_independence_2_level",
+      "pass": true,
+      "expected": 55.68695821088189,
+      "calculated": 55.68695821076816,
+      "error": 1.1372947028576164e-10,
+      "tolerance": 0.1,
+      "units": "%"
+    },
+    {
+      "name": "test_speed_independence_1x_P80",
+      "pass": true,
+      "expected": 87.50717572622916,
+      "calculated": 87.50717572622916,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "um"
+    },
+    {
+      "name": "test_speed_independence_1x_level",
+      "pass": true,
+      "expected": 53.893039986032235,
+      "calculated": 53.893039986032235,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "%"
+    },
+    {
+      "name": "test_speed_independence_5x_P80",
+      "pass": true,
+      "expected": 87.50717572622916,
+      "calculated": 87.50717572622916,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "um"
+    },
+    {
+      "name": "test_speed_independence_5x_level",
+      "pass": true,
+      "expected": 53.893039986032235,
+      "calculated": 53.893039986032235,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "%"
+    },
+    {
+      "name": "test_speed_independence_10x_P80",
+      "pass": true,
+      "expected": 87.50717572622916,
+      "calculated": 87.50717572622916,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "um"
+    },
+    {
+      "name": "test_speed_independence_10x_level",
+      "pass": true,
+      "expected": 53.893039986032235,
+      "calculated": 53.893039986032235,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "%"
+    },
+    {
+      "name": "test_speed_independence_20x_P80",
+      "pass": true,
+      "expected": 87.50717572622916,
+      "calculated": 87.50717572622916,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "um"
+    },
+    {
+      "name": "test_speed_independence_20x_level",
+      "pass": true,
+      "expected": 53.893039986032235,
+      "calculated": 53.893039986032235,
+      "error": 0,
+      "tolerance": 0.01,
+      "units": "%"
+    },
+    {
+      "name": "test_p80_interpolation",
+      "pass": true,
+      "expected": 150,
+      "calculated": 149.99999999999997,
+      "error": 2.842170943040401e-14,
+      "tolerance": 2.5,
+      "units": "um"
+    }
+  ]
+}

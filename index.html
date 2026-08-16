@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MK ProcessSim v0.7 · MetKinetics</title>
+<style>
+:root{
+ --nav:#0d1b26;--nav2:#132736;--ink:#17232c;--muted:#71808a;--bg:#edf1f4;--panel:#ffffff;
+ --line:#d7dfe4;--orange:#f28a00;--orange2:#ff9f1c;--blue:#2f7eb8;--water:#45aee9;
+ --good:#1e9b59;--bad:#c8483f;--shadow:0 4px 16px rgba(15,35,48,.08)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Segoe UI,Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+header{height:64px;background:var(--nav);display:flex;align-items:center;padding:0 18px;border-bottom:1px solid #243746;color:#fff}
+.brand{display:flex;align-items:center;gap:13px}.brand img{height:42px;width:auto;object-fit:contain}.brand-copy{line-height:1.12}.brand-copy strong{font-size:18px;font-weight:700}.brand-copy strong em{color:var(--orange2);font-style:normal}.brand-copy span{display:block;color:#9eafb9;font-size:10px;margin-top:3px}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}.top-actions .meta{font-size:10px;color:#9fb0ba;margin-right:8px}.top-actions button{padding:7px 11px}
+.shell{display:grid;grid-template-columns:262px minmax(650px,1fr) 286px;height:calc(100vh - 64px)}
+.left{background:linear-gradient(180deg,var(--nav),#0b1720);border-right:1px solid #253a49;padding:10px;overflow:auto}.center{padding:12px;overflow:auto}.right{background:#f5f7f8;border-left:1px solid var(--line);padding:12px;overflow:auto}
+.section{display:flex;align-items:center;gap:8px;padding:10px 9px;margin-top:8px;color:#e8eef2;border:1px solid #2b4251;border-radius:7px;background:#132735;cursor:pointer;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.035em}.section:first-child{margin-top:0}.section::before{content:"";width:3px;height:14px;background:var(--orange);border-radius:3px}.section::after{content:"▾";margin-left:auto;color:#96a9b5}.section.collapsed::after{transform:rotate(-90deg)}
+.section-body{padding:7px 5px 3px}.section-body.collapsed{display:none}
+label{display:grid;grid-template-columns:1fr 84px;gap:8px;align-items:center;margin:7px 0;color:#c6d2d9;font-size:10.5px}input,select{width:100%;height:29px;border:1px solid #405766;border-radius:5px;background:#0c1821;color:#fff;padding:5px 7px;font-size:10.5px}input:focus,select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 2px rgba(242,138,0,.12)}
+button{height:32px;border-radius:6px;border:1px solid #cbd5db;background:#fff;color:#24333d;font-weight:650;cursor:pointer;padding:0 12px;font-size:10.5px}button:hover{border-color:#9baab4}.primary{background:var(--orange);border-color:var(--orange);color:#fff}.primary:hover{background:#df7f00}.danger{background:#fff;border-color:#dfb4b0;color:#a53b34}.row{display:flex;gap:7px}.row>*{flex:1}
+.toolbar{display:grid;grid-template-columns:auto auto auto 1fr auto;gap:7px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;box-shadow:var(--shadow);margin-bottom:10px}.speedbox{display:flex;align-items:center;gap:7px;justify-self:start;margin-left:8px;padding-left:12px;border-left:1px solid var(--line)}.speedbox span{font-size:10px;color:var(--muted)}.speedbox select{width:78px;background:#fff;color:#24333d;border-color:#cdd6dc}.simtime{justify-self:end;text-align:right}.simtime span{display:block;color:var(--muted);font-size:9px}.simtime b{font-size:14px;color:var(--orange)}
+.tabs{display:flex;gap:4px;margin-bottom:10px}.tab{padding:7px 12px;border:1px solid var(--line);background:#f6f8f9;border-radius:6px;font-size:10.5px;color:#5b6972;cursor:pointer}.tab.active{background:#fff;color:#18242d;border-color:#bcc8cf;font-weight:700;box-shadow:0 2px 7px rgba(20,40,55,.06)}.pane{display:none}.pane.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin-bottom:10px}.kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 11px;box-shadow:var(--shadow);min-height:70px}.kpi>span{display:block;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}.kpi-value{display:flex!important;align-items:baseline;gap:5px;margin-top:6px;white-space:nowrap}.kpi-value b{display:inline!important;margin:0;font-size:20px;color:#17232c}.kpi-value .unit{display:inline!important;font-size:11px;font-weight:700;text-transform:none;letter-spacing:0;color:#61717b}.kpi b.accent{color:var(--orange)}.kpi-secondary{display:flex;align-items:baseline;gap:4px;margin-top:6px;color:#6f7e87;white-space:nowrap}.kpi-secondary span{font-size:10px;text-transform:none;letter-spacing:0}.kpi-secondary b{display:inline!important;margin:0;font-size:14px;color:#17232c}.kpi-secondary .unit{font-weight:600;text-transform:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden}.card-head{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 11px;border-bottom:1px solid var(--line);background:#fbfcfd}.card-head h3{margin:0;font-size:11px;text-transform:uppercase;letter-spacing:.04em}.card-body{padding:10px}.legend{display:flex;gap:12px;align-items:center;font-size:9px;color:var(--muted)}.legend i{display:inline-block;width:15px;height:2px;vertical-align:middle;margin-right:4px}.l-pulp{background:var(--blue)}.l-water{background:var(--water)}.l-ret{background:var(--orange)}
+.process-stage{display:flex;align-items:center;justify-content:center;padding:8px;background:#f5f7f8}.process-canvas{position:relative;width:100%;max-width:1200px;aspect-ratio:1810/869;overflow:hidden;border-radius:7px;background:#f5f7f8}.process-image{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.flow-card{position:absolute;z-index:2;padding:8px 10px;border:1px solid #ccd7de;border-radius:7px;background:rgba(255,255,255,.96);box-shadow:0 3px 10px rgba(20,40,55,.14);font-size:10px;line-height:1.35;color:#34444e}.flow-card strong{display:block;margin-bottom:4px;font-size:9px;letter-spacing:.045em;color:#17232c}.flow-card .flow-main{display:block;font-weight:700;color:#17232c}.flow-card .flow-sub{display:block;margin-top:2px;color:#64747e}.feed-card{left:1%;top:4%;width:20%;border-top:3px solid #2f7eb8}.mill-power-card{left:22%;top:4%;width:24%;border-top:3px solid #596b75}.sump-card{left:47%;top:4%;width:18%;border-top:3px solid #45aee9}.pump-card{left:66%;top:4%;width:15%;border-top:3px solid #2f7eb8}.cyclone-card{left:47%;top:31%;width:20%;border-top:3px solid #2f7eb8}.cyclone-card .flow-main{font-size:9px;white-space:nowrap}.mill-discharge-card{left:24%;top:66%;width:25%;border-top:3px solid #596b75}.product-card{left:84%;top:49%;width:15%;border-top:3px solid #1e9b59}.uf-card{left:36%;top:87%;width:31%;border-top:3px solid #f28a00}@media(max-width:1050px){.flow-card{padding:5px 7px;font-size:8px}.flow-card strong{font-size:7.5px;margin-bottom:2px}.cyclone-card .flow-main{font-size:7.5px}}
+.mill-discharge-card{left:22%;top:65%;width:19%}
+.cyclone-card{left:55%;top:31%;width:20%}
+.product-card{left:82%;top:4%;width:17%}
+.sump-card.sump-warning{border-color:#f0a000;border-top-color:#f0a000;background:#fff7dd;box-shadow:0 0 0 3px rgba(240,160,0,.18),0 3px 10px rgba(20,40,55,.14);animation:sumpPulse 1s ease-in-out infinite}.sump-card.sump-trip{border-color:#d62828;border-top-color:#d62828;background:#ffe5e5;box-shadow:0 0 0 4px rgba(214,40,40,.22),0 3px 10px rgba(20,40,55,.14);animation:none}.sump-alarm{display:none;margin-top:4px;padding:3px 5px;border-radius:4px;font-weight:800;text-align:center}.sump-warning .sump-alarm{display:block;color:#7a4b00;background:#ffe09a}.sump-trip .sump-alarm{display:block;color:#fff;background:#d62828}@keyframes sumpPulse{50%{box-shadow:0 0 0 6px rgba(240,160,0,.08),0 3px 10px rgba(20,40,55,.14)}}
+.pump-card.pump-saturated{border-color:#e07500;border-top-color:#e07500;background:#fff4e6}.pump-card.pump-saturated .flow-main{color:#b55700}
+.lower-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(250px,.8fr);gap:10px}.charts-section{margin-top:10px}.charts-title{display:flex;align-items:center;justify-content:space-between;margin:0 0 8px;padding:0 2px}.charts-title h2{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.05em}.charts-title span{font-size:9px;color:var(--muted)}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.chart-card canvas{display:block;width:100%;height:220px;background:#fff}.chart-card.compact canvas{height:190px}.chart-card.wide{grid-column:1/-1}.chart-head-content{display:flex;align-items:center;justify-content:space-between;width:100%;gap:10px}.chart-legend{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px 10px;font-size:9px;color:#667680}.chart-legend span{white-space:nowrap}.chart-dot{display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:50%;vertical-align:-1px}.status-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mini{border:1px solid var(--line);border-radius:7px;padding:9px;background:#fbfcfd}.mini span{display:block;color:var(--muted);font-size:9px}.mini b{display:block;margin-top:4px;font-size:13px}
+.right .card{box-shadow:none}.right .card-head{background:#fff}.right .card-body{padding:10px}.right label{color:#52626d;grid-template-columns:1fr 82px}.right input,.right select{background:#fff;color:#24333d;border-color:#cbd5db}.statusline{padding:8px 9px;border-radius:6px;background:#f2f8f4;border:1px solid #cce8d6;color:var(--good);font-size:10.5px;font-weight:700;margin-bottom:9px}table{width:100%;border-collapse:collapse;font-size:10px}td{padding:7px 3px;border-bottom:1px solid #e4eaee}td:last-child{text-align:right;font-weight:650}.note{font-size:10px;color:#6e7d86;line-height:1.45}.footer-note{font-size:9px;color:#86949d;text-align:center;padding:4px 0 12px}
+canvas{width:100%;height:260px;background:#fff;border:0}.method-text{font-size:11px;line-height:1.65;color:#56656e}.psd-wrap{padding:10px}.psd-summary{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin:12px 0}.psd-summary .mini{background:#fff;border-top-width:3px}.psd-summary .feed{border-top-color:#2f7eb8}.psd-summary .mill{border-top-color:#596b75}.psd-summary .uf{border-top-color:#f28a00}.psd-summary .of{border-top-color:#1e9b59}.psd-table-wrap{max-height:390px;overflow:auto;border:1px solid var(--line);border-radius:7px}.psd-table{min-width:980px;font-variant-numeric:tabular-nums}.psd-table th{position:sticky;top:0;z-index:1;padding:8px 6px;background:#eaf0f4;border-bottom:1px solid #cbd5db;color:#33454f;font-size:9px;text-align:right;white-space:nowrap}.psd-table th:first-child,.psd-table td:first-child{text-align:left;position:sticky;left:0}.psd-table th:first-child{z-index:2;background:#eaf0f4}.psd-table td:first-child{background:#fff;font-weight:700}.psd-table tbody tr:nth-child(even) td{background:#f8fafb}.psd-table tbody tr:nth-child(even) td:first-child{background:#f8fafb}.psd-table td{padding:6px;text-align:right}.psd-group-feed{color:#2f7eb8}.psd-group-mill{color:#596b75}.psd-group-uf{color:#d57900}.psd-group-of{color:#1e9b59}
+@media(max-width:1250px){.shell{grid-template-columns:245px minmax(600px,1fr)}.right{display:none}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1000px){.chart-grid{grid-template-columns:1fr}.chart-card.wide{grid-column:auto}.status-mini{grid-template-columns:1fr 1fr}}
+@media(max-width:850px){body{overflow:auto}.shell{display:block;height:auto}.left,.right{display:block}.center{min-width:740px}.top-actions .meta{display:none}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><img src="logo_metkinetics.png" alt="MetKinetics"><div class="brand-copy"><strong>MK ProcessSim <em>v0.7</em></strong><span>Simulación de molienda y clasificación</span></div></div>
+ <div class="top-actions"><span class="meta">MetKinetics · Ingeniería de Procesos</span><button id="exportBtn">Exportar CSV</button></div>
+</header>
+<div class="shell">
+<aside class="left">
+ <div class="section">Alimentación</div><div class="section-body">
+  <label>Tratamiento [t/h]<input id="tph" type="number" value="100" step="1"></label>
+  <label>F80 [µm]<input id="f80" type="number" value="10000" step="100"></label>
+  <label>Wi Bond [kWh/t]<input id="wi" type="number" value="14" step="0.1"></label>
+  <label>Densidad mineral [t/m³]<input id="oreDensity" type="number" value="2.70" step="0.05"></label>
+  <label>Humedad feed [%]<input id="feedMoisture" type="number" value="3" step="0.5"></label>
+ </div>
+ <div class="section">Objetivo</div><div class="section-body">
+  <label>P80 objetivo [µm]<input id="p80Target" type="number" value="150" step="5"></label>
+  <label>Eficiencia [%]<input id="eff" type="number" value="92" step="1"></label>
+ </div>
+ <div class="section">Molino</div><div class="section-body">
+  <label>Volumen útil [m³]<input id="millVol" type="number" value="120" step="1"></label>
+  <label>Inventario [t]<input id="hold0" type="number" value="85" step="1"></label>
+  <label>τ PSD molino [min]<input id="tauPSD" type="number" value="4" step="0.1"></label><label>τ inventario [min]<input id="tauHold" type="number" value="2" step="0.1"></label><label>τ ciclón [min]<input id="tauCyclone" type="number" value="0.15" step="0.01"></label>
+  <label>Potencia [kW]<input id="installedPower" type="number" value="2200" step="10"></label>
+  <label>Agua molino [m³/h]<input id="millWater" type="number" value="60" step="5"></label>
+  <label>Carga bolas [%]<input id="ballCharge" type="number" value="32" step="1"></label>
+  <label>Velocidad crítica [%]<input id="criticalSpeed" type="number" value="75" step="1"></label>
+ </div>
+ <div class="section">Sump y bomba</div><div class="section-body">
+  <label>Volumen sump [m³]<input id="sumpVolume" type="number" value="160" step="5"></label>
+  <label>Nivel inicial [%]<input id="sumpInitialLevel" type="number" value="55" step="1"></label>
+  <label>Agua sump [m³/h]<input id="sumpWater" type="number" value="20" step="5"></label>
+  <label>Control de bomba<select id="pumpMode"><option value="auto" selected>Automático (nivel)</option><option value="manual">Manual</option></select></label>
+  <label>Setpoint nivel [%]<input id="sumpLevelSP" type="number" value="55" step="1"></label>
+  <label>Velocidad manual / base [%]<input id="pumpSpeed" type="number" value="70" step="1"></label>
+  <label>Velocidad mínima [%]<input id="pumpMinSpeed" type="number" value="20" step="1"></label>
+  <label>Capacidad bomba [m³/h]<input id="pumpMaxFlow" type="number" value="360" step="10"></label>
+  <label>Ganancia nivel Kp<input id="pumpKp" type="number" value="2" step="0.1"></label>
+  <label>Tiempo integral Ti [min]<input id="pumpTi" type="number" value="5" step="0.5"></label>
+ </div>
+ <div class="section">Ciclón</div><div class="section-body">
+  <label>d50c [µm]<input id="d50" type="number" value="105" step="1"></label>
+  <label>Imperfección<input id="imperfection" type="number" value="0.32" step="0.01"></label>
+  <label>Bypass [%]<input id="bypass" type="number" value="12" step="1"></label>
+  <label>Diámetro ciclón [mm]<input id="cycloneDiameter" type="number" value="500" step="10"></label>
+  <label>Ciclones activos<input id="activeCyclones" type="number" value="6" min="1" step="1"></label>
+  <label>Presión feed [kPa]<input id="cyclonePressure" type="number" value="100" step="5"></label>
+  <label>Diámetro apex [mm]<input id="apexDiameter" type="number" value="100" step="2"></label>
+  <label>Vortex finder [mm]<input id="vortexDiameter" type="number" value="180" step="2"></label>
+ </div>
+ <div class="section">Dinámica</div><div class="section-body">
+  <label>Δt [s]<input id="dt" type="number" value="1" min="0.1" step="0.1"></label>
+  <div class="row"><button class="primary" id="calcBtn">Calcular</button><button id="resetBtn">Reset</button></div>
+ </div>
+</aside>
+
+<main class="center">
+ <div class="toolbar">
+  <button class="primary" id="playBtn">▶ Ejecutar</button><button id="startupBtn">↗ Arranque</button><button id="pauseBtn">⏸ Pausa</button><button class="danger" id="stopBtn">■ Detener</button>
+  <div class="speedbox"><span>Velocidad de simulación · X = multiplicador</span><select id="speed"><option value="1" selected>1×</option><option value="2">2×</option><option value="5">5×</option><option value="10">10×</option><option value="15">15×</option><option value="20">20×</option></select></div>
+  <div id="steadyStatus" style="font-size:11px;font-weight:800;color:#7b8992;white-space:nowrap">SIN RESOLVER</div><div class="simtime"><span>Tiempo simulado</span><b id="toolbarTime">0,00 min</b></div>
+ </div>
+ <div class="tabs"><div class="tab active" data-pane="sim">Simulación</div><div class="tab" data-pane="psd">Granulometría</div><div class="tab" data-pane="method">Modelo</div></div>
+
+ <section class="pane active" id="sim">
+  <div class="kpis">
+   <div class="kpi"><span>Energía específica</span><div class="kpi-value"><b id="kBond">—</b><span class="unit">kWh/t</span></div></div>
+   <div class="kpi"><span>Potencia requerida</span><div class="kpi-value"><b class="accent" id="kPower">—</b><span class="unit">kW</span></div></div>
+   <div class="kpi"><span>P80 producto / overflow</span><div class="kpi-value"><b id="kP80">—</b><span class="unit">µm</span></div><div class="kpi-secondary"><span>Descarga molino:</span><b id="kP80Mill">—</b><span class="unit">µm</span></div></div>
+   <div class="kpi"><span>Carga circulante</span><div class="kpi-value"><b id="kCL">—</b><span class="unit">%</span></div></div>
+  </div>
+
+  <div class="card">
+   <div class="card-head"><h3>Diagrama del proceso</h3><div class="legend"><span><i class="l-pulp"></i>Pulpa</span><span><i class="l-water"></i>Agua</span><span><i class="l-ret"></i>Recirculación</span></div></div>
+   <div class="process-stage">
+    <div class="process-canvas" aria-label="Circuito cerrado de molienda y clasificación">
+     <img class="process-image" src="flowsheet_process.png" alt="Circuito de molienda, sump, bomba y batería de ciclones">
+     <div class="flow-card feed-card"><strong>ALIMENTACIÓN FRESCA</strong><span id="svgFeed" class="flow-main">—</span><span id="svgFeed2" class="flow-sub">—</span></div>
+     <div class="flow-card mill-power-card"><strong>MOLINO DE BOLAS</strong><span id="svgPower" class="flow-main">—</span><span id="svgPower2" class="flow-sub">—</span></div>
+     <div class="flow-card sump-card" id="sumpCard"><strong>ESTADO DEL SUMP</strong><span id="svgSump" class="flow-main">—</span><span id="svgSump2" class="flow-sub">—</span><span id="svgSumpAlarm" class="sump-alarm">—</span></div>
+     <div class="flow-card pump-card" id="pumpCard"><strong>BOMBA</strong><span id="svgPump" class="flow-main">—</span><span id="svgPump2" class="flow-sub">—</span></div>
+     <div class="flow-card cyclone-card"><strong>FEED A CICLONES</strong><span id="svgCyclone" class="flow-main">—</span><span id="svgCyclone2" class="flow-sub">—</span><span id="svgCyclone3" class="flow-sub">—</span><span id="svgCyclone4" class="flow-sub">—</span></div>
+     <div class="flow-card mill-discharge-card"><strong>DESCARGA DEL MOLINO</strong><span id="svgMill" class="flow-main">—</span><span id="svgMill2" class="flow-sub">—</span><span id="svgMill3" class="flow-sub">—</span></div>
+     <div class="flow-card product-card"><strong>OVERFLOW · PRODUCTO</strong><span id="svgProduct" class="flow-main">—</span><span id="svgProduct2" class="flow-sub">—</span><span id="svgProduct3" class="flow-sub">—</span></div>
+     <div class="flow-card uf-card"><strong>UNDERFLOW · RECIRCULACIÓN AL MOLINO</strong><span id="svgUF" class="flow-main">—</span><span id="svgUF2" class="flow-sub">—</span></div>
+    </div>
+   </div>
+  </div>
+
+  <div class="card"><div class="card-head"><h3>Estado rápido</h3><button id="disturbBtn">Aplicar +20% alimentación</button></div><div class="card-body"><div id="simStatus" class="statusline">Modelo detenido.</div><div class="status-mini"><div class="mini"><span>Inventario</span><b id="stateM2">—</b></div><div class="mini"><span>Utilización</span><b id="stateUtil2">—</b></div><div class="mini"><span>U/F sólidos</span><b id="stateUF2">—</b></div><div class="mini"><span>Tiempo</span><b id="stateT2">—</b></div></div></div></div>
+  <section class="charts-section"><div class="charts-title"><h2>Tendencias del circuito</h2><span>Todas las curvas usan tiempo simulado</span></div><div class="chart-grid">
+   <div class="card chart-card"><div class="card-head"><div class="chart-head-content"><h3>Granulometría dinámica · P80</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#596b75"></i>Descarga molino</span><span><i class="chart-dot" style="background:#f28a00"></i>Overflow</span><span><i class="chart-dot" style="background:#2f7eb8"></i>Objetivo</span></div></div></div><canvas id="trend" width="500" height="220"></canvas></div>
+   <div class="card chart-card"><div class="card-head"><div class="chart-head-content"><h3>Flujos de sólidos</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#2f7eb8"></i>Fresh feed</span><span><i class="chart-dot" style="background:#596b75"></i>Feed molino</span><span><i class="chart-dot" style="background:#f28a00"></i>Underflow</span><span><i class="chart-dot" style="background:#1e9b59"></i>Overflow</span></div></div></div><canvas id="flowTrend" width="500" height="220"></canvas></div>
+   <div class="card chart-card compact"><div class="card-head"><div class="chart-head-content"><h3>Carga circulante</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#f28a00"></i>CL</span></div></div></div><canvas id="clTrend" width="500" height="190"></canvas></div>
+   <div class="card chart-card compact"><div class="card-head"><div class="chart-head-content"><h3>Inventario del molino</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#2f7eb8"></i>Inventario</span></div></div></div><canvas id="inventoryTrend" width="500" height="190"></canvas></div>
+   <div class="card chart-card compact"><div class="card-head"><div class="chart-head-content"><h3>Potencia del molino</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#c8483f"></i>Potencia utilizada</span></div></div></div><canvas id="powerTrend" width="500" height="190"></canvas></div>
+   <div class="card chart-card compact"><div class="card-head"><div class="chart-head-content"><h3>Nivel del sump</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#45aee9"></i>Nivel</span></div></div></div><canvas id="sumpTrend" width="500" height="190"></canvas></div>
+   <div class="card chart-card compact"><div class="card-head"><div class="chart-head-content"><h3>Condición de pulpa a ciclones</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#6f42c1"></i>% sólidos</span><span><i class="chart-dot" style="background:#1e9b59"></i>Densidad × 40</span></div></div></div><canvas id="pulpTrend" width="500" height="190"></canvas></div>
+   <div class="card chart-card compact"><div class="card-head"><div class="chart-head-content"><h3>Balance de agua</h3><div class="chart-legend"><span><i class="chart-dot" style="background:#2f7eb8"></i>Agua molino</span><span><i class="chart-dot" style="background:#45aee9"></i>Agua sump</span><span><i class="chart-dot" style="background:#1e9b59"></i>Agua overflow</span><span><i class="chart-dot" style="background:#f28a00"></i>Agua underflow</span></div></div></div><canvas id="waterTrend" width="500" height="190"></canvas></div>
+  </div></section>
+ </section>
+
+ <section class="pane" id="psd"><div class="card"><div class="card-head"><div class="chart-head-content"><h3>Distribución granulométrica</h3><div style="display:flex;align-items:center;gap:14px"><div class="chart-legend"><span><i class="chart-dot" style="background:#2f7eb8"></i>Alimentación fresca</span><span><i class="chart-dot" style="background:#596b75"></i>Descarga molino</span><span><i class="chart-dot" style="background:#f28a00"></i>Underflow</span><span><i class="chart-dot" style="background:#1e9b59"></i>Overflow / producto</span></div><button id="exportPSDExcel">Exportar tabla a Excel</button></div></div></div><div class="psd-wrap"><canvas id="psdChart" width="900" height="300"></canvas><div class="psd-summary"><div class="mini feed"><span><i class="chart-dot" style="background:#2f7eb8"></i>P80 alimentación</span><b id="psdP80Feed">—</b></div><div class="mini mill"><span><i class="chart-dot" style="background:#596b75"></i>P80 molino</span><b id="psdP80Mill">—</b></div><div class="mini uf"><span><i class="chart-dot" style="background:#f28a00"></i>P80 underflow</span><b id="psdP80UF">—</b></div><div class="mini of"><span><i class="chart-dot" style="background:#1e9b59"></i>P80 overflow</span><b id="psdP80OF">—</b></div></div><div class="psd-table-wrap"><table class="psd-table"><thead><tr><th rowspan="2">Tamaño [µm]</th><th colspan="2" class="psd-group-feed">● Alimentación</th><th colspan="2" class="psd-group-mill">● Descarga molino</th><th colspan="2" class="psd-group-uf">● Underflow</th><th colspan="2" class="psd-group-of">● Overflow</th></tr><tr><th>Ret. [%]</th><th>Pas. [%]</th><th>Ret. [%]</th><th>Pas. [%]</th><th>Ret. [%]</th><th>Pas. [%]</th><th>Ret. [%]</th><th>Pas. [%]</th></tr></thead><tbody id="psdTableBody"></tbody></table></div><p class="note">Ret. = porcentaje retenido por clase; Pas. = porcentaje pasante acumulado. Todas las corrientes proceden del balance por clases y el P80 se obtiene por interpolación logarítmica.</p></div></div></section>
+ <section class="pane" id="method"><div class="card"><div class="card-head"><h3>Base matemática implementada</h3></div><div class="card-body method-text"><b>Sólidos:</b> balances dinámicos por 20 clases en molino y sump. La rotura conserva masa y el underflow retorna al molino.<br><br><b>Agua:</b> inventarios explícitos en molino y sump; el agua fresca y recirculada participa en todos los balances. Se calculan residuos de molino, sump, ciclón y sistema.<br><br><b>Pulpa:</b> % sólidos, densidad y caudal volumétrico se obtienen de las masas de sólidos/agua y de la densidad mineral.<br><br><b>Sump y bomba:</b> mezcla perfecta; nivel calculado desde volumen real. La bomba queda limitada por capacidad, velocidad e inventario disponible, con corrección proporcional de nivel.<br><br><b>Ciclón:</b> curva de Tromp por clase. La corrección de d50 por presión, caudal, densidad y geometría, y la recuperación de agua al underflow, son <b>provisionales y calibrables</b>, no correlaciones validadas de diseño.<br><br><b>Numeración:</b> Runge–Kutta de cuarto orden con subpasos; reloj, solver y render están separados.</div></div></section>
+ <div class="footer-note">MK ProcessSim v0.7 · MetKinetics · HTML offline / EXE-ready</div>
+</main>
+
+<aside class="right">
+ <div class="card"><div class="card-head"><h3>Estado de simulación</h3></div><div class="card-body"><div id="stateBadge" class="statusline">Preparado</div><table><tr><td>Tiempo simulado</td><td id="stateT">0,00 min</td></tr><tr><td>Inventario molino</td><td id="stateM">—</td></tr><tr><td>Potencia / instalada</td><td id="stateUtil">—</td></tr><tr><td>U/F sólidos</td><td id="stateUF">—</td></tr></table></div></div>
+ <div class="card"><div class="card-head"><h3>Perturbaciones</h3></div><div class="card-body"><label>Feed futuro [t/h]<input id="stepFeed" type="number" value="120"></label><label>Wi futuro [kWh/t]<input id="stepWi" type="number" value="17"></label><div class="row"><button id="stepFeedBtn">Aplicar Feed</button><button id="stepWiBtn">Aplicar Wi</button></div><label>Agua molino [m³/h]<input id="stepMillWater" type="number" value="80"></label><label>Agua sump [m³/h]<input id="stepSumpWater" type="number" value="40"></label><div class="row"><button id="stepMillWaterBtn">Agua molino</button><button id="stepSumpWaterBtn">Agua sump</button></div><label>Velocidad bomba [%]<input id="stepPumpSpeed" type="number" value="90"></label><label>Ciclones activos<input id="stepCyclones" type="number" value="5"></label><div class="row"><button id="stepPumpBtn">Aplicar bomba</button><button id="stepCyclonesBtn">Aplicar ciclones</button></div><label>Presión ciclón [kPa]<input id="stepPressure" type="number" value="120"></label><button id="stepPressureBtn" style="width:100%">Aplicar presión</button></div></div>
+ <div class="card"><div class="card-head"><h3>Lectura del caso</h3></div><div class="card-body"><p class="note">El panel central queda reservado para el proceso y las tendencias. Los controles de configuración están a la izquierda y las acciones dinámicas a la derecha para evitar mezclar entradas con resultados.</p></div></div>
+</aside>
+</div>
+<script src="engine.js"></script>
+<script src="ui.js"></script>
+</body></html>
