@@ -1,6 +1,6 @@
 # MK ProcessSim — Documentación del modelo agua–pulpa
 
-Fecha: 2026-08-15
+Fecha: 2026-08-16
 
 ## Convención de unidades
 
@@ -67,9 +67,9 @@ Rango de interfaz: 0–100 %, aunque operacionalmente debe mantenerse muy por de
 
 Se usa `ρw = 1 t/m³` y `ρs` configurable. Las mismas ecuaciones se aplican a inventarios y corrientes.
 
-## Molino — EMPÍRICA/CALIBRABLE
+## Molino — EMPÍRICA/CALIBRABLE CON LÍMITE ENERGÉTICO
 
-La descarga usa mezcla perfecta con `Fout,i = Mmill,i / τhold`. La rotura es de primer orden y depende de potencia, Wi, inventario y tamaño. Conserva masa, pero sus parámetros no están calibrados con ensayos ni surveys de planta. Bond se muestra solo como estimación energética y no impone el P80.
+La descarga usa mezcla perfecta con `Fout,i = Mmill,i / τhold`. La rotura base es de primer orden y conserva masa. La demanda energética se calcula sobre la masa que el PBM intenta romper, usando el incremento de Bond entre cada clase padre y sus clases hijas 72/28 %. La potencia efectiva es `min(P_available, P_required)` y las tasas de rotura se reducen por `min(1, P_available/P_required)`. Así, al saturarse el motor cae la energía específica disponible y el producto se engruesa. Wi, cinética y distribución de hijas siguen siendo calibrables y no están validados con planta.
 
 ## Sump — BALANCE/FÍSICA
 
@@ -113,9 +113,22 @@ La presión de alimentación es una entrada operativa y participa únicamente en
 
 El integrador es RK4 con subpasos. El detector exige simultáneamente baja tasa de cambio de P80 OF, CL, inventario del molino, nivel de sump, densidad del ciclón y FUF durante una ventana continua de 2 minutos, además de conservación de sólidos y agua.
 
+El reloj separa explícitamente `wallDeltaSec`, `speedMultiplier`, `simDeltaSec` y `solverMaxDtSec`, con `simDeltaSec = wallDeltaSec · speedMultiplier`. La velocidad es una propiedad del reloj, no de las ecuaciones físicas. La frecuencia de render no forma parte del estado ni de las derivadas.
+
+## P80
+
+El P80 se obtiene de la curva acumulada mediante interpolación lineal en fracción pasante y logarítmica en tamaño. La PSD se normaliza internamente. En distribuciones fuera de resolución o degeneradas, el resultado queda limitado explícitamente al intervalo de clases `[38, 25 400] µm`; no se extrapola fuera de la malla.
+
 ## Validación
 
 - Balances de sólidos/agua y propiedades de pulpa: verificados matemáticamente.
-- Integración y conservación de 60 minutos: verificadas numéricamente.
+- Integración, reloj 1×/5×/10×/20×, render 30/60/120 FPS, no deriva y conservación de 10/60/240 minutos: verificadas numéricamente.
+- Antes de introducir el límite energético, el arranque tardaba 537,7 min en permanecer dentro de las tolerancias durante 5 min; F_UF era la variable gobernante. En el modelo cerrado, sin modificar tau ni PI, F_UF presenta T95=125,83 min y T99=151,17 min. La mejora proviene del cambio de PSD/recirculación, no de calibrar el criterio para obtener PASS.
 - Modelos de molienda, bomba, d50 y water split: implementados, no validados contra datos.
 - Comparación con BALLSIM, Moly-Cop u otro software comercial: no realizada.
+
+## Capacidad y estados de factibilidad
+
+Los resultados de pruebas y la factibilidad del proceso son conceptos separados. La suite verifica que los detectores reconozcan restricciones en vez de exigir una falsa convergencia. Con la hidráulica base, 100 t/h es factible y el primer punto discreto excedido es 125 t/h. En el escenario diagnóstico con hidráulica no limitante, 125 t/h usa aproximadamente 2109 kW y 150 t/h requiere aproximadamente 5413 kW frente a 2200 kW disponibles; el límite energético queda entre ambos puntos. A 150 y 200 t/h se conservan estados de capacidad excedida, no PASS de proceso.
+
+El límite de ciclones no fue evaluado por falta de una correlación o datos calibrados. Véanse `ENERGY_MODEL_DIAGNOSTIC.md`, `DYNAMIC_RESPONSE_DIAGNOSTIC.md` y `CAPACITY_DIAGNOSTIC.md`.

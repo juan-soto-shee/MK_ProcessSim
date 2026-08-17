@@ -1,99 +1,157 @@
-# MK ProcessSim — Informe de validación
+# MK ProcessSim — Informe de auditoría y validación numérica
 
-Fecha: 2026-08-15
+Fecha: 2026-08-16
 
-## Resultado
+## Resultado honesto
 
-El circuito incorpora balances dinámicos explícitos de sólidos y agua, propiedades de pulpa, inventarios reales de molino y sump, bomba limitada y clasificación de ciclón. Resultado final de la suite: **48 PASS / 0 FAIL**.
+La suite contiene **200 verificaciones: 197 PASS y 3 FAIL**. Los fallos se conservan deliberadamente:
 
-Los resultados numéricos completos, valores esperados, errores y tolerancias están en `TEST_RESULTS.json`. Las ecuaciones y su clasificación están en `MODEL_DOCUMENTATION.md`.
+- el arranque alcanza y mantiene las tolerancias recién a 537,7 min, superando el límite de aceptación justificado de 360 min;
+- los escenarios de 150 y 200 t/h no satisfacen el criterio de convergencia de `solveSteadyState()` dentro de su horizonte de 1800 min.
 
-## Arquitectura implementada
+Por tanto, este informe **no** declara al simulador globalmente validado. `TEST_RESULTS.json` contiene valores, tolerancias y fallos sin ocultarlos.
 
-`alimentación fresca + agua molino + underflow → molino → sump + agua sump → bomba → ciclones → overflow + underflow`
+## Hallazgos de la auditoría
 
-Estados dinámicos:
+### CRÍTICO
 
-- masa de sólidos por 20 clases en molino;
-- inventario de agua del molino;
-- masa de sólidos por 20 clases en sump;
-- inventario de agua del sump.
+- El antiguo `test_speed_independence` repetía literalmente `advance(..., 30*60, 1)` para 1×, 5×, 10× y 20×. El multiplicador solo aparecía en el nombre del test; era un falso positivo.
+- El antiguo test de arranque esperaba 1200 min y solo comparaba el estado final. No medía T63/T90/T95/T99 ni revelaba que la aceptación a 360 min falla.
 
-La interfaz y el motor permanecen separados en `ui.js` y `engine.js`.
+### MAYOR
 
-## Auditoría previa
+- Los tests de deriva, `dt`, perturbaciones, rotura, ciclón, sump y controles eran parciales o inexistentes.
+- Los escenarios de capacidad alta no convergen con el solver estacionario actual, aunque permanecen finitos.
+- Varias perturbaciones tardan una fracción importante del horizonte de 240 min en completar el 95 % del cambio final observado. Esto es una predicción del modelo actual, no una constante física validada.
 
-Antes de esta ampliación, el sump y la bomba eran solo elementos gráficos; el ciclón recibía directamente la descarga del molino; no existían agua, densidad, % sólidos, caudal volumétrico, nivel, presión operativa ni residuos de agua. El antiguo estado estacionario no podía representar acumulación en sump.
+### MENOR
 
-## Caso base estacionario
+- Una PSD dispersa podía producir `P80 = 25 400,00000000001 µm` por redondeo. Se limitó explícitamente el resultado a la malla granulométrica.
 
-Entradas principales: 100 t/h de sólidos frescos, F80 10 000 µm, Wi 14 kWh/t, 60 m³/h de agua al molino, 20 m³/h al sump, densidad mineral 2,7 t/m³, sump 160 m³, bomba 360 m³/h a 70 %, seis ciclones, 100 kPa y d50 base 105 µm.
+### CORRECTO
 
-Resultados aproximados:
+- Los balances algebraicos de sólidos y agua cierran.
+- La rotura transfiere masa entre clases sin crear ni destruir sólidos.
+- La partición a underflow es acotada y monótona con tamaño para la formulación implementada.
 
-| Variable | Resultado |
-|---|---:|
-| Overflow sólidos | 99,999 t/h |
-| Underflow sólidos | 234,203 t/h |
-| Carga circulante | 234,203 % |
-| P80 overflow | 102,444 µm |
-| Nivel sump | 56,166 % |
-| Caudal bomba/ciclones | 285,581 m³/h |
-| Densidad feed ciclón | 1,7368 t/m³ |
-| Agua overflow | ≈83,09 m³/h |
-| Residual sistema sólidos | <10⁻12 t/h |
-| Residual sistema agua | <10⁻12 t/h |
+## Reloj de simulación
 
-## Pruebas
+Se implementó y probó la separación:
 
-Se verificaron:
+`simDeltaSec = wallDeltaSec · speedMultiplier`
 
-- balances de sólidos de sistema y ciclón;
-- balances de agua en molino, sump, ciclón y sistema;
-- densidad, porcentaje de sólidos y caudal volumétrico;
-- inventario y nivel del sump;
-- límite de caudal de bomba;
-- split volumétrico del ciclón;
-- definición de carga circulante;
-- ausencia de deriva desde estado estacionario;
-- convergencia de arranque en P80, CL, nivel y densidad;
-- escalones de agua al molino, agua al sump, bomba, ciclones activos, presión, Wi y feed;
-- independencia para dt 0,1/0,5/1/2 s;
-- independencia para 1×/5×/10×/20× al mismo tiempo simulado;
-- interpolación P80.
+| Velocidad | Wall time para 30 min simulados |
+|---:|---:|
+| 1× | 1800 s |
+| 5× | 360 s |
+| 10× | 180 s |
+| 20× | 90 s |
 
-## Conservación crítica de 60 minutos
+El solver usa `solverMaxDtSec = 1 s`. Se compararon P80 OF, P80 molino, CL, nivel de sump, densidad de ciclón, FUF, FOF, inventario y potencia. El máximo error relativo entre velocidades fue `8,24·10⁻13`. A 30/60/120 FPS, el máximo error relativo fue `7,57·10⁻13`. Render y velocidad no modifican la física al mismo tiempo simulado.
 
-Se integraron entradas, salidas y cambio de inventarios durante 60 minutos simulados.
+## Arranque y tiempos de respuesta
 
-| Conservación | Residual acumulado | Tolerancia | Estado |
-|---|---:|---:|---|
-| Sólidos | ≈2,05·10⁻12 t | 0,002 t | PASS |
-| Agua | ≈−4,19·10⁻13 t | 0,002 t | PASS |
+Los tiempos se calculan respecto a `(y(t)-y0)/(yss-y0)`, sin asumir monotonicidad. Overshoot, undershoot, máximo, mínimo y sus tiempos están en `TEST_RESULTS.json`.
 
-## Detector de estabilidad
+| Variable | T63 min | T90 min | T95 min | T99 min |
+|---|---:|---:|---:|---:|
+| P80 overflow | 4,50 | 5,67 | 6,00 | 6,33 |
+| Carga circulante | 89,83 | 212,83 | 273,83 | 413,50 |
+| Nivel sump | 0,17 | 0,17 | 0,17 | 0,17 |
+| Densidad ciclón | 52,00 | 150,83 | 208,50 | 346,00 |
+| Inventario molino | 0,67 | 0,83 | 1,00 | 1,00 |
 
-Incluye tasas de P80 overflow, CL, inventario de molino, nivel de sump, densidad de ciclón y FUF. Se exige cumplimiento continuo durante 2 minutos y cierre de sólidos/agua.
+El P80 OF presenta overshoot de 15,43 µm respecto del estado final y llega a un mínimo de 87,01 µm a 22,83 min. El nivel del sump oscila entre 53,08 % y 57,26 %. Aunque las variables finales a 600 min están dentro de tolerancia respecto de `solveSteadyState()`, la permanencia conjunta por 5 min comienza a 537,7 min: **FAIL** frente al límite de 360 min (72 veces el mayor tiempo integral configurado).
 
-## Interfaz
+## No deriva e independencia de dt
 
-Se agregaron entradas de densidad/humedad, agua molino, sump, bomba, presión y geometría de ciclones; resultados de agua/pulpa/nivel; alarmas de sump; perturbaciones nuevas; datos en vivo sobre el flowsheet; gráficos de nivel, pulpa y agua; y exportaciones CSV.
+Partiendo exactamente del estado estacionario, el máximo drift relativo fue:
 
-## Clasificación de modelos
+| Duración | Máximo drift relativo |
+|---:|---:|
+| 30 min | `7,80·10⁻6` |
+| 60 min | `1,33·10⁻5` |
+| 120 min | `1,99·10⁻5` |
 
-| Componente | Estado |
-|---|---|
-| Balance de sólidos | IMPLEMENTADO y VERIFICADO MATEMÁTICAMENTE |
-| Balance de agua | IMPLEMENTADO y VERIFICADO MATEMÁTICAMENTE |
-| Propiedades de pulpa | IMPLEMENTADO y VERIFICADO MATEMÁTICAMENTE |
-| Integración y conservación | VERIFICADO NUMÉRICAMENTE |
-| Cinética de molienda | IMPLEMENTADA; EMPÍRICA/CALIBRABLE |
-| Bomba | IMPLEMENTADA; PROVISIONAL |
-| Corrección d50 por operación/geometría | IMPLEMENTADA; PROVISIONAL/CALIBRABLE |
-| Recuperación de agua UF | IMPLEMENTADA; PROVISIONAL/CALIBRABLE |
-| Validación contra planta | NO REALIZADA |
-| Validación contra software comercial | NO REALIZADA |
+Se incluyeron P80 OF, P80 molino, CL, nivel, densidad, FUF, FOF, inventario, potencia, agua del molino y agua del sump. La prueba transitoria de `dt = 0,5/1/2 s` contra referencia `0,1 s` pasa en las nueve variables principales con tolerancia relativa `10⁻5`.
 
-## Limitaciones
+## Conservación prolongada
 
-No existe aún una curva bomba–sistema, modelo hidráulico de presión, correlación de diseño de ciclón validada, reología de pulpa, balance térmico, desgaste ni control PI con dinámica de actuador. Las alarmas no descargan rebalse automáticamente para evitar ocultar pérdidas de masa. Los parámetros empíricos requieren calibración con survey y pruebas de laboratorio.
+| Duración | Residual sólidos t | Error relativo sólidos | Residual agua t | Error relativo agua |
+|---:|---:|---:|---:|---:|
+| 10 min | `1,99·10⁻12` | `1,20·10⁻13` | `-6,06·10⁻13` | `4,37·10⁻14` |
+| 60 min | `8,85·10⁻12` | `8,85·10⁻14` | `-2,88·10⁻12` | `3,47·10⁻14` |
+| 240 min | `1,56·10⁻11` | `3,90·10⁻14` | `-5,92·10⁻12` | `1,78·10⁻14` |
+
+## Wi y régimen operativo
+
+| Wi kWh/t | P80 OF µm | Potencia kW | Energía específica kWh/t | CL % |
+|---:|---:|---:|---:|---:|
+| 14 | 102,44 | 364,32 | 3,64 | 234,20 |
+| 17 | 119,94 | 377,45 | 3,77 | 375,54 |
+
+Ambos casos convergen y el mineral más duro da producto más grueso en esta formulación. Ninguno está limitado por la potencia disponible de 2024 kW; por ello el resultado se registra como comportamiento del modelo empírico, no como validación energética externa.
+
+## Capacidad predicha por el modelo actual
+
+| Feed t/h | Convergió | Potencia kW | Utilización % | P80 OF µm | Inventario t | CL % |
+|---:|:---:|---:|---:|---:|---:|---:|
+| 50 | Sí | 364,32 | 18,00 | 54,43 | 2,86 | 71,83 |
+| 100 | Sí | 364,32 | 18,00 | 102,44 | 11,14 | 234,20 |
+| 150 | **No** | 446,00 | 22,04 | 113,64 | 18,73 | 274,60 |
+| 200 | **No** | 519,80 | 25,68 | 114,82 | 21,83 | 227,44 |
+
+No se detecta un límite de potencia entre 50 y 200 t/h. Los valores de 150/200 t/h son el último estado finito del horizonte, no estados estacionarios aceptados. Esta tabla es **capacidad predicha por el modelo actual**, no capacidad de diseño validada.
+
+## Sensibilidad local ±10 %
+
+La tabla completa está en `TEST_RESULTS.json`. Todas las corridas permanecieron finitas y convergieron. Las sensibilidades más fuertes del caso base fueron CL frente a potencia, feed y Wi (aproximadamente −22 % a +35 %), y P80 OF frente a esas mismas entradas (aproximadamente −8 % a +11 %). El nivel del sump casi no cambia porque el controlador lo lleva al setpoint. Estos resultados sirven para detectar y calibrar sensibilidades; no constituyen validación externa.
+
+## VERIFICADO MATEMÁTICAMENTE
+
+- balances de sólidos y agua;
+- propiedades de pulpa;
+- conservación de sólidos por clase en la función de rotura;
+- cierre de ciclón por clase y global;
+- interpolación logarítmica y límites de P80.
+
+## VERIFICADO NUMÉRICAMENTE
+
+- RK4 e independencia de `dt`;
+- reloj 1×/5×/10×/20× y render 30/60/120 FPS;
+- no deriva a 30/60/120 min;
+- conservación prolongada a 10/60/240 min;
+- finitud, límites y anti-windup de los controles probados.
+
+## IMPLEMENTADO / CALIBRABLE
+
+- cinética de molienda;
+- d50 operativo;
+- partición de sólidos y water split del ciclón.
+
+## PROVISIONAL
+
+- bomba y curva hidráulica implícita;
+- controles de nivel y agua;
+- correcciones hidráulicas por presión, geometría y densidad.
+
+## NO VALIDADO EXTERNAMENTE
+
+- contra datos de planta;
+- contra Moly-Cop;
+- contra BALLSIM;
+- contra JKSimMet;
+- contra cualquier software comercial.
+
+## Cierre de iteración 2026-08-17
+
+Esta sección sustituye las cifras históricas de potencia/capacidad y respuesta dinámica que permanezcan arriba como trazabilidad de la auditoría anterior.
+
+- Suite disponible: **205/205 PASS**, 0 pruebas fallidas. `TEST_RESULTS.json` contiene el resultado reproducible.
+- Los casos de proceso a 150 y 200 t/h no se reclasificaron como convergentes: los tests PASS comprueban que el motor detecta la inviabilidad hidráulica/capacidad.
+- Límite energético predicho: entre 125 y 150 t/h. En el escenario hidráulicamente no limitante, 125 t/h requiere ≈2109 kW; a 150 t/h la demanda es ≈5413 kW, la disponibilidad 2200 kW y `energyAvailability≈0,406`.
+- Límite hidráulico predicho con parámetros base: entre 100 y 125 t/h; 125 t/h es el primer punto discreto clasificado `HYDRAULIC_CAPACITY_EXCEEDED`.
+- F_UF era la última variable del arranque original por el lazo recirculante molino–sump–bomba–ciclón, el volumen/residencia del sump y el split UF≈70,08 %, además de su tolerancia más estricta. Su constante efectiva original era ≈90,87 min. Sin cambiar tau ni PI, el modelo energético cerrado entrega T95/T99 de 125,83/151,17 min.
+- La potencia usada ahora es `min(P_available,P_required)` y limita explícitamente las tasas de rotura. Se corrigió el mecanismo ausente en el que más feed eleva la demanda, satura la potencia, reduce energía específica y deteriora P80.
+
+Pendientes no ejecutados por cierre de cuota: refinar los umbrales con una malla más fina, calibrar energía/rotura con datos de planta, incorporar capacidad de ciclones respaldada, acordar criterios operacionales y repetir la sensibilidad dinámica completa del modelo energético nuevo. No se efectuaron ajustes de tau, PI, d50 ni water split.
